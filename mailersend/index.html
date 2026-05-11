@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -424,7 +423,7 @@ function sendScheduled(e) {
       );
     };
 
-    const AnimatedCounter = ({ value, label, icon: Icon, colorClass, iconPadding = 'p-3' }) => {
+    const AnimatedCounter = ({ value, label, icon: Icon, colorClass, iconPadding = 'p-3', iconClass = "w-5 h-5 lg:w-[22px] lg:h-[22px]" }) => {
       const [display, setDisplay] = useState(0);
       
       useEffect(() => {
@@ -443,7 +442,9 @@ function sendScheduled(e) {
 
       return (
         <div className="flex items-center gap-2 lg:gap-3 bg-white px-3 lg:px-4 py-3 lg:py-4 rounded-xl lg:rounded-2xl shadow-sm border border-gray-100 flex-1">
-          <div className={`${iconPadding} rounded-lg lg:rounded-xl ${colorClass}`}><Icon size={22} className="w-5 h-5 lg:w-[22px] lg:h-[22px]"/></div>
+          <div className={`${iconPadding} rounded-lg lg:rounded-xl ${colorClass} flex items-center justify-center shrink-0 overflow-hidden`}>
+            <Icon size={22} className={iconClass}/>
+          </div>
           <div>
             <div className="text-xl lg:text-2xl font-bold text-gray-800 leading-none mb-1">{display}</div>
             <div className="text-[9px] lg:text-[10px] text-gray-500 font-bold uppercase tracking-wider leading-none whitespace-nowrap">{label}</div>
@@ -453,6 +454,7 @@ function sendScheduled(e) {
     };
 
     // --- CUSTOM BADGE ICONS ---
+    const TopSentCoverImage = ({ className }) => <img src="https://bucket.mlcdn.com/a/3336/3336910/images/61d28a2ed5f15a4d51f5bb74cc52c8b552c190ed.png" alt="Sent Emails" className={`${className} object-cover`} />;
     const BadgeDefault = ({ size, className }) => <img src="https://bucket.mlcdn.com/a/3336/3336910/images/1fa94decf9808dc7ebb25bee38b94cc4c9c65a84.png" alt="Badge" className={className} style={{ width: size, height: size, objectFit: 'contain' }} />;
     const BadgeBronze = ({ size, className }) => <img src="https://bucket.mlcdn.com/a/3336/3336910/images/2beacad4ff4db7fe84448df907631076ae5d153a.png" alt="Badge" className={className} style={{ width: size, height: size, objectFit: 'contain' }} />;
     const BadgeSilver = ({ size, className }) => <img src="https://bucket.mlcdn.com/a/3336/3336910/images/c89c156a2cac09aa58a0d34db8553fd3d5a59e56.png" alt="Badge" className={className} style={{ width: size, height: size, objectFit: 'contain' }} />;
@@ -719,7 +721,14 @@ function sendScheduled(e) {
       useEffect(() => {
         // Detect Language
         const savedLang = localStorage.getItem('mailerSend_lang');
-        if (savedLang) setLang(savedLang);
+        if (savedLang) {
+          setLang(savedLang);
+        } else {
+          const browserLang = navigator.language || navigator.userLanguage;
+          if (browserLang && browserLang.toLowerCase().startsWith('es')) {
+            setLang('es');
+          }
+        }
 
         const loadLocalFallback = () => {
           const savedTemplates = localStorage.getItem('mailerSend_templates');
@@ -1084,12 +1093,11 @@ function sendScheduled(e) {
         if (count >= 10) return { icon: BadgeSilver, colorClass: "bg-slate-100", label: t('badge_silver') };
         
         if (isTopCounter) {
-           return { icon: BadgeDefault, colorClass: "bg-[#efe6ff]", label: t('badge_bronze') };
+           return { icon: BadgeDefault, colorClass: "bg-[#f0e6ff]", label: t('badge_bronze') };
         }
-        return { icon: BadgeBronze, colorClass: "bg-[#efe6ff]", label: t('badge_bronze') };
+        return { icon: BadgeBronze, colorClass: "bg-[#f0e6ff]", label: t('badge_bronze') };
       };
 
-      const topBadgeProps = getBadgeProps(stats.sent || 0, true);
       const overviewBadgeProps = getBadgeProps(stats.sent || 0, false);
       const OverviewBadgeIcon = overviewBadgeProps.icon;
 
@@ -1235,7 +1243,14 @@ function sendScheduled(e) {
               <div className="flex items-center gap-2 lg:gap-4 overflow-x-auto pb-2 sm:pb-0 w-full sm:w-auto hide-scrollbar">
                 <div className="flex gap-2 lg:gap-4 my-1 lg:my-2 min-w-max">
                   <AnimatedCounter value={contacts.length} label={t('nav_contacts')} icon={Users} colorClass="bg-indigo-50 text-indigo-500" iconPadding="p-2 lg:p-2.5" />
-                  <AnimatedCounter value={stats.sent || 0} label={topBadgeProps.label} icon={topBadgeProps.icon} colorClass={topBadgeProps.colorClass} iconPadding="p-1 lg:p-1.5" />
+                  <AnimatedCounter 
+                    value={stats.sent || 0} 
+                    label={t('badge_bronze')} 
+                    icon={TopSentCoverImage} 
+                    colorClass="bg-transparent" 
+                    iconPadding="p-0" 
+                    iconClass="w-9 h-9 lg:w-[42px] lg:h-[42px]" 
+                  />
                 </div>
 
                 {view === 'compose' && (
@@ -1726,7 +1741,7 @@ function sendScheduled(e) {
 
                   <div>
                     <h4 className="font-bold text-base lg:text-lg mb-2 lg:mb-3 flex items-center gap-2"><span className={`bg-[${COLORS.highlight}] text-white w-5 h-5 lg:w-6 lg:h-6 rounded-full flex items-center justify-center text-[10px] lg:text-xs`}>1</span> Create the Script (Now with Sheets Backup!)</h4>
-                    <p className="text-[10px] lg:text-xs font-semibold text-gray-500 mb-2">The script will now automatically create a hidden spreadsheet in your Google Drive to securely back up your templates and contacts across devices.</p>
+                    <p className="text-[10px] lg:text-xs font-semibold text-gray-500 mb-2">Open <a href="https://script.google.com/" target="_blank" rel="noreferrer" className="text-[#8b84f4] underline hover:text-[#e07cd0] transition-colors">Google Apps Script</a> and create a New Project. The script will now automatically create a hidden spreadsheet in your Google Drive to securely back up your templates and contacts across devices.</p>
                     <p className="text-[10px] lg:text-xs font-semibold text-red-500 mb-2">⚠️ Note: If you connected previously, copy and deploy the NEW script code to unlock Aliases and Data Backup!</p>
                     <div className="relative">
                       <textarea readOnly value={GAS_CODE} className="w-full h-32 lg:h-48 bg-gray-900 text-green-400 font-mono text-[10px] lg:text-xs p-3 lg:p-4 rounded-xl focus:outline-none"/>
