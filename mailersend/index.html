@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MailerSend by MailerBox</title>
+  <title>MailerSend</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -24,7 +24,7 @@
   </script>
 
   <!-- Favicon (Static Fallback) -->
-  <link rel="icon" href="https://bucket.mlcdn.com/a/3336/3336910/images/2beacad4ff4db7fe84448df907631076ae5d153a.png">
+  <link rel="icon" href="https://bucket.mlcdn.com/a/3336/3336910/images/b8c73d70362873f64b413c404e256d402d1639e1.png">
 
   <!-- ICONS CODE -->
   <script> 
@@ -1108,19 +1108,31 @@ function sendScheduled(e) {
         const last7Days = Array.from({length: 7}, (_, i) => {
           const d = new Date();
           d.setDate(d.getDate() - (6 - i));
-          return d.toLocaleDateString([], {weekday: 'short'});
+          return d;
         });
         
-        const counts = last7Days.map((day, idx) => {
-          const targetDate = new Date();
-          targetDate.setDate(targetDate.getDate() - (6 - idx));
-          const dateStr = targetDate.toLocaleDateString();
-          return logs.filter(l => l.action === 'Email' && l.time.includes(dateStr)).length;
+        const counts = last7Days.map((targetDate) => {
+          // Get exactly midnight to midnight for the target day
+          const startOfDay = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate()).getTime();
+          const endOfDay = startOfDay + 24 * 60 * 60 * 1000;
+          
+          return logs.filter(l => {
+            if (l.action !== 'Email') return false;
+            
+            // Use precise timestamp if available
+            if (l.timestamp) {
+              return l.timestamp >= startOfDay && l.timestamp < endOfDay;
+            }
+            
+            // Fallback for older logs
+            const dateStr = targetDate.toLocaleDateString();
+            return l.time && l.time.includes(dateStr);
+          }).length;
         });
 
         const max = Math.max(...counts, 5);
         return counts.map((count, i) => ({
-          label: last7Days[i],
+          label: last7Days[i].toLocaleDateString([], {weekday: 'short'}),
           value: count,
           height: (count / max) * 100
         }));
