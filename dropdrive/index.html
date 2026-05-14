@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DriveDrop</title>
+    <title>DropDrive</title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phosphor Icons for modern, clean iconography -->
@@ -112,8 +112,8 @@
     <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 w-64 flex flex-col transition-transform duration-300 z-30 transform -translate-x-full lg:translate-x-0">
         <div class="h-16 custom-top-bar border-b flex items-center justify-between px-4 shrink-0">
             <div class="flex items-center gap-2 font-bold text-xl tracking-tight">
-                <img src="https://bucket.mlcdn.com/a/3336/3336910/images/79790380f5a30ceadcc692df423221d8147ca312.png" alt="DriveDrop Logo" class="h-8 w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/32x32/000000/ffffff?text=DD';">
-                DriveDrop
+                <img src="https://bucket.mlcdn.com/a/3336/3336910/images/79790380f5a30ceadcc692df423221d8147ca312.png" alt="DropDrive Logo" class="h-8 w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/32x32/000000/ffffff?text=DD';">
+                DropDrive
             </div>
             <button class="lg:hidden text-white/70 hover:text-white transition-colors" onclick="toggleSidebar()">
                 <i class="ph ph-x text-xl"></i>
@@ -266,7 +266,7 @@
                 <div id="tab-content-connect" class="block animate-[slideIn_0.2s_ease-out]">
                     <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex items-start gap-3 mb-6">
                         <i class="ph-fill ph-info text-slate-500 text-xl mt-0.5 shrink-0"></i>
-                        <p class="text-sm text-slate-700">DriveDrop runs locally on your browser. To manage files, deploy a simple script in your Google Account. <strong>Your data never leaves your device except directly to your Google Drive.</strong></p>
+                        <p class="text-sm text-slate-700">DropDrive runs locally on your browser. To manage files, deploy a simple script in your Google Account. <strong>Your data never leaves your device except directly to your Google Drive.</strong></p>
                     </div>
                     
                     <div class="mb-4">
@@ -302,7 +302,7 @@
                                 <!-- Script Code block -->
                                 <textarea id="raw-script-code" class="hidden">
 /**
- * DriveDrop Backend API
+ * DropDrive Backend API
  * Deploy as a Web App: 
  * - Execute as: Me
  * - Who has access: Anyone
@@ -405,7 +405,7 @@ function deleteItem(id) {
                     <div class="flex items-start gap-4">
                         <div class="w-8 h-8 rounded-full bg-slate-100 text-black flex items-center justify-center font-bold shrink-0 mt-0.5">3</div>
                         <div class="flex-1">
-                            <h3 class="text-lg font-bold text-slate-800 mb-2">Connect DriveDrop</h3>
+                            <h3 class="text-lg font-bold text-slate-800 mb-2">Connect DropDrive</h3>
                             <p class="text-sm text-slate-600 mb-4">Go back to the <strong>Connect URL</strong> tab and paste your new Web app URL.</p>
                             <button onclick="switchSetupTab('connect')" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2">
                                 <i class="ph ph-arrow-left"></i> Back to Connect
@@ -468,7 +468,7 @@ function deleteItem(id) {
     <script>
         // --- State Management ---
         const State = {
-            gasUrl: localStorage.getItem('drivedrop_url') || '',
+            gasUrl: localStorage.getItem('dropdrive_url') || '',
             currentFolder: 'root',
             path: [{ id: 'root', name: 'My Drive' }],
             folders: [],
@@ -706,7 +706,7 @@ function deleteItem(id) {
             .then(data => {
                 if (data.status === 'success') {
                     State.gasUrl = url;
-                    localStorage.setItem('drivedrop_url', url);
+                    localStorage.setItem('dropdrive_url', url);
                     DOM.setupModal.classList.add('hidden');
                     updateSystemStatus('connected');
                     triggerConfetti();
