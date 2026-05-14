@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DriveDrop</title>
+    <title>DropDrive</title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phosphor Icons for modern, clean iconography -->
@@ -78,7 +78,7 @@
         <div class="p-4 border-b border-slate-100 flex items-center justify-between">
             <div class="flex items-center gap-2 text-primary-600 font-bold text-xl tracking-tight">
                 <i class="ph-fill ph-cloud-arrow-up text-2xl"></i>
-                DriveDrop
+                DropDrive
             </div>
             <button class="lg:hidden text-slate-500 hover:text-slate-700" onclick="toggleSidebar()">
                 <i class="ph ph-x text-xl"></i>
