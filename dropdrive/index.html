@@ -14,6 +14,43 @@
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+
+  <!-- Favicon (Static Fallback) -->
+  <link rel="icon" href="https://bucket.mlcdn.com/a/3336/3336910/images/79790380f5a30ceadcc692df423221d8147ca312.png">
+
+  <!-- ICONS CODE -->
+  <script> 
+    function removeFromLinks(rel) {
+      // Use standard array conversion to safely remove from a live HTMLCollection
+      var links = document.head.getElementsByTagName("link");
+      for (var i = links.length - 1; i >= 0; i--) {
+        if (links[i].rel === rel) {
+          document.head.removeChild(links[i]);
+        }
+      }
+    }
+    
+    function createNewFavicon(rel, img) {
+      var newFavicon = document.createElement("link");
+      newFavicon.type = "image/png";
+      newFavicon.rel = rel;
+      newFavicon.href = img;
+      var firstHeadElement = document.head.firstChild;
+      document.head.insertBefore(newFavicon, firstHeadElement);
+    }
+    
+    removeFromLinks("icon");
+    removeFromLinks("shortcut icon");
+    removeFromLinks("apple-touch-icon");
+    createNewFavicon("icon", "https://bucket.mlcdn.com/a/3336/3336910/images/b8c73d70362873f64b413c404e256d402d1639e1.png");
+    createNewFavicon("shortcut icon", "https://bucket.mlcdn.com/a/3336/3336910/images/b8c73d70362873f64b413c404e256d402d1639e1.png");
+    createNewFavicon("apple-touch-icon", "https://bucket.mlcdn.com/a/3336/3336910/images/b8c73d70362873f64b413c404e256d402d1639e1.png"); 
+  </script>
+  <!-- End ICONS Code -->
+
+    
     
     <script>
         tailwind.config = {
